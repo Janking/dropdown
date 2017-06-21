@@ -81,3 +81,5 @@ $('.dropdown-mul-1').dropdown({
 
 
 ## Example
+
+[https://janking.github.io/dropdown/](https://janking.github.io/dropdown/)
