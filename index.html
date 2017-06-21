@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>dropdown</title>
+  <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./jquery.dropdown.css">
+  <script src="http://cdn.bootcss.com/jquery/1.8.1/jquery.js"></script>
+  <script type="text/javascript" src="http://mockjs.com/dist/mock.js"></script>
+  <script src="./jquery.dropdown.js"></script>
+  <style>
+    body {
+      width: 80%;
+      margin: 0 auto;
+      padding-bottom: 200px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>程序逻辑</h2>
+  <img src="http://images.vrm.cn/2017/03/21/WX20170321-174303.png">
+  <h2> Demo</h2>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="text-info">多选、JSON渲染、分组功能</div><br>
+      <div class="dropdown-mul-1">
+        <select style="display:none"  name="" id="" multiple placeholder="请选择">
+                </select>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="text-info">多选、Option渲染</div><br>
+      <div class="dropdown-mul-2">
+        <select style="display:none"  name="" id="mul-2" multiple placeholder="请选择">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="3" selected>我是默认选中的</option>
+          <option value="4" disabled>4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="text-info">单选模式，Option渲染</div><br>
+      <div class="dropdown-sin-1">
+        <select style="display:none"  placeholder="请选择：测试placeholder">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="text-info">10000 条数据搜索测试</div><br>
+      <div class="dropdown-sin-2">
+        <select style="display:none" multiple placeholder="请选择：测试placeholder"></select>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  </div>
+  <script>
+    var Random = Mock.Random;
+    var json1 = Mock.mock({
+      "data|10-50": [{
+        name: function () {
+          return Random.name(true)
+        },
+        "id|+1": 1,
+        "disabled|1-2": true,
+        groupName: '分组名',
+        "groupId|1-4": 1,
+        "selected": false
+      }]
+    });
+
+    $('.dropdown-mul-1').dropdown({
+      data: json1.data,
+      limitCount: 40,
+      multipleMode: 'label',
+      choice: function () {
+        // console.log(arguments,this);
+      }
+    });
+
+    var json2 = Mock.mock({
+      "data|10000-10000": [{
+        name: function () {
+          return Random.name(true)
+        },
+        "id|+1": 1,
+        "disabled": false,
+        groupName: '分组名',
+        "groupId|1-4": 1,
+        "selected": false
+      }]
+    });
+
+    $('.dropdown-mul-2').dropdown({
+      limitCount: 5,
+      searchable: false
+    });
+
+    $('.dropdown-sin-1').dropdown({
+      readOnly: true,
+      input: '<input type="text" maxLength="20" placeholder="请输入搜索">'
+    });
+
+    $('.dropdown-sin-2').dropdown({
+      data: json2.data,
+      input: '<input type="text" maxLength="20" placeholder="请输入搜索">'
+    });
+  </script>
+</body>
+
+</html>
