@@ -1,3 +1,4 @@
+;(function($){
 'use strict';
 function throttle(func, wait, options) {
   var context, args, result;
@@ -465,3 +466,4 @@ $.fn.dropdown = function (options) {
   });
   return this;
 }
+})(jQuery);
