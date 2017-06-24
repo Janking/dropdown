@@ -50,6 +50,7 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 ### changeStatus(status)
 
 
+
 | 参数 |类型|描述|
 | ----|-----|-----|
 | status|String|支持`readonly`或`disabled`，不传则取消`readonly/disabled`|
@@ -66,6 +67,7 @@ dropdown.changeStatus() // cancel
 
 
 ### destroy()
+
 
 | 参数 |类型|描述|
 | ----|-----|-----|
