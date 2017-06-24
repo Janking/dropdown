@@ -33,6 +33,32 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 **程序设计原理如下图所示：**
 ![](http://images.vrm.cn/2017/03/21/WX20170321-174303.png)
 
+在一些前端渲染的场景，JSON数据是通过AJAX请求的，如果再拼成`<option value="yyy">xxx</option>` 就有点多余了。
+在这种情况下，建议直接将JSON数据转为以下这种格式：
+
+```json
+[
+    {
+      "id": 1, // value值
+      "disabled": false, // 是否禁选
+      "groupName": "分组名",  
+      "groupId": 3,//分组ID
+      "selected": false, // 是否选中
+      "name": "Betty Deborah Jackson" // 名称
+    },
+    {
+      "id": 2,
+      "disabled": false,
+      "groupName": "分组名",
+      "groupId": 2,
+      "selected": false,
+      "name": "Jason Barbara Clark"
+    }
+    // more ...
+    ]
+```
+
+Dropdown 会根据这个JSON来渲染 `select > option`
 
 ## Options
 | 名称 | 描述 | 类型|默认|
