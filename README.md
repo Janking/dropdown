@@ -2,7 +2,7 @@
 Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持key/value搜索，有token和select两种模式。
 
 ## Version
-- 1.0.0
+- 1.1.0
 
 ## Support
 - Internet Explorer 8+
@@ -12,6 +12,15 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 
 ## Based
 - jQuery 1.4+
+
+## Log
+
+* 2017-06-24 version 1.1.0
+	* 多选 `select`模式下增加一个 **全部删除** 按钮
+	* 新增 `changeStatus` 方法，提供`readonly`,`disabled`功能
+	* 新增 `destroy`,`bindEvent`,`unbindEvent` 方法
+* 2017-06-21 version 1.0.0 上线
+
 
 ## Feature
 1. 支持 `select` 和 `token` 两种模式
@@ -35,6 +44,40 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 | searchable|是否可开启搜索|Boolean|`true`|
 | searchNoData|无数据模板|HTML|`<li style="color:#ddd">查无数据，换个词儿试试 /(ㄒoㄒ)/~~</li>`|
 | choice|选择后回调函数|Function| `function(){}`|
+
+## Methods
+
+### changeStatus(status)
+
+
+| 参数 |类型|描述|
+| ----|-----|-----|
+| status|String|支持`readonly`或`disabled`，不传则取消`readonly/disabled`|
+|return|undefined|
+
+
+```js
+var dropdown = $('selector').dropdown(options).data('dropdown');
+dropdown.changeStatus('readonly') // readonly
+dropdown.changeStatus('disabled') // disabled
+dropdown.changeStatus() // cancel
+
+```
+
+
+### destroy()
+
+| 参数 |类型|描述|
+| ----|-----|-----|
+| status|String|支持`readonly`或`disabled`，不传则取消`readonly/disabled`|
+|return|undefined|
+
+
+```js
+var dropdown = $('selector').dropdown(options).data('dropdown');
+dropdown.destroy();
+
+```
 
 
 ## Usage
