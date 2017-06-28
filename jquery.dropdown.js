@@ -107,16 +107,15 @@
     result = result.replace(/<optgroup[^>]*>/gi, function (matcher) {
       var groupName = /label="(.[^"]*)"(\s|>)/.exec(matcher);
       var groupId = /data\-group\-id="(.[^"]*)"(\s|>)/.exec(matcher);
-      return '<li class="dropdown-group" data-group-id="' + (groupId[1] || '') + '">' + (groupName[1] || '') + '</li>';
+      return '<li class="dropdown-group" data-group-id="' + (groupId ? groupId[1] : '') + '">' + (groupName ? groupName[1] : '') + '</li>';
     });
     result = result.replace(/<option(.*?)<\/option>/gi, function (matcher) {
-      var value = /value="(.[^"]*)"(\s|>)/.exec(matcher);
+      var value = /value="?(\w)"?/.exec(matcher);
       var name = />(.*)<\//.exec(matcher);
       // 强制要求html中使用selected/disabled，而不是selected="selected","disabled="disabled"
       var isSelected = matcher.indexOf('selected') > -1 ? true : false;
       var isDisabled = matcher.indexOf('disabled') > -1 ? true : false;
-
-      return '<li ' + (isDisabled ? ' disabled' : ' tabindex="0"') + ' data-value="' + (value[1] || '') + '" class="dropdown-option ' + (isSelected ? 'dropdown-chose' : '') + '">' + (name[1] || '') + '</li>';
+      return '<li ' + (isDisabled ? ' disabled' : ' tabindex="0"') + ' data-value="' + (value ? value[1] : '') + '" class="dropdown-option ' + (isSelected ? 'dropdown-chose' : '') + '">' + (name ? name[1] : '') + '</li>';
     });
 
     return result;
@@ -276,7 +275,7 @@
       var _config = _dropdown.config;
       var $select = _dropdown.$select;
       var $target = $(event.target);
-      var value = $target.data('value');
+      var value = $target.attr('data-value');
       var hasSelected = $target.hasClass('dropdown-chose');
       var selectedName = [];
 
@@ -318,7 +317,7 @@
       var $el = _dropdown.$el;
       var $select = _dropdown.$select;
       var $target = $(event.target);
-      var value = $target.data('value');
+      var value = $target.attr('data-value');
       var hasSelected = $target.hasClass('dropdown-chose');
 
       _dropdown.name = [];
@@ -344,7 +343,6 @@
       $select.find('option[value="' + value + '"]').prop('selected', true);
 
       _dropdown.name.push('<span class="placeholder">' + _dropdown.placeholder + '</span>');
-
       _dropdown.$choseList.html(_dropdown.name.join(''));
     },
     del: function del(event) {
