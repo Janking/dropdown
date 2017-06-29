@@ -110,7 +110,7 @@
       return '<li class="dropdown-group" data-group-id="' + (groupId ? groupId[1] : '') + '">' + (groupName ? groupName[1] : '') + '</li>';
     });
     result = result.replace(/<option(.*?)<\/option>/gi, function (matcher) {
-      var value = /value="?(\w)"?/.exec(matcher);
+      var value = /value="?(\w+)"?/.exec(matcher);
       var name = />(.*)<\//.exec(matcher);
       // 强制要求html中使用selected/disabled，而不是selected="selected","disabled="disabled"
       var isSelected = matcher.indexOf('selected') > -1 ? true : false;
