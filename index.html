@@ -32,6 +32,9 @@
         <select style="display:none" name="" id="" multiple placeholder="请选择"> </select>
       </div>
     </div>
+    <div class="col-sm-4" style="margin-top:40px;">
+      <button class="btn btn-primary btn-sm" id="update">AJAX更新数据</button>
+    </div>
   </div>
   <br>
   <br>
@@ -42,9 +45,6 @@
         <select style="display:none" name="" id="mul-2" multiple placeholder="请选择">
           <option value="1" selected>1</option>
           <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
           <option value="3" selected>我是默认选中的</option>
           <option value="4" disabled>4</option>
           <option value="5">5</option>
@@ -80,10 +80,13 @@
   <br>
   <div class="row">
     <div class="col-sm-4">
-      <div class="text-info">10000 条数据搜索测试</div><br>
+      <div class="text-info">100 条数据搜索测试</div><br>
       <div class="dropdown-sin-2">
         <select style="display:none" multiple placeholder="请选择：测试placeholder"></select>
       </div>
+    </div>
+    <div class="col-sm-4" style="margin-top:40px;">
+      <button class="btn btn-primary btn-sm" id="update2">AJAX更新数据</button>
     </div>
   </div>
   <br>
@@ -122,7 +125,7 @@
     });
 
     var json2 = Mock.mock({
-      "data|10000-10000": [{
+      "data|100-200": [{
         name: function() {
           return Random.name(true)
         },
@@ -134,9 +137,42 @@
       }]
     });
 
+    Mock.mock('/update', {
+      "data|51-100": [{
+        name: function() {
+          return Random.name(true)
+        },
+        "id|+1": 101,
+        "disabled|1-2": true,
+        groupName: '分组名',
+        "groupId|1-4": 1,
+        "selected": false
+      }]
+    });
+    Mock.mock('/update2', {
+      "data|201-300": [{
+        name: function() {
+          return Random.name(true)
+        },
+        "id|+1": 201,
+        "disabled": false,
+        groupName: '分组名',
+        "groupId|1-4": 1,
+        "selected": false
+      }]
+    });
+
+
     $('.dropdown-mul-2').dropdown({
       limitCount: 5,
       searchable: false
+    });
+
+
+    $('#update').on('click', function() {
+      $.get('/update', function(res) {
+        $('.dropdown-mul-1').data('dropdown').update(JSON.parse(res).data, true);
+      });
     });
 
     $('.dropdown-sin-1').dropdown({
@@ -147,6 +183,13 @@
     $('.dropdown-sin-2').dropdown({
       data: json2.data,
       input: '<input type="text" maxLength="20" placeholder="请输入搜索">'
+    });
+
+
+    $('#update2').on('click', function() {
+      $.get('/update', function(res) {
+        $('.dropdown-sin-2').data('dropdown').update(JSON.parse(res).data, false);
+      });
     });
   </script>
 </body>

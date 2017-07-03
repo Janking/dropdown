@@ -2,7 +2,7 @@
 Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持key/value搜索，有token和select两种模式。
 
 ## Version
-- 1.1.1
+- 1.1.3
 
 ## Support
 - Internet Explorer 8+
@@ -14,6 +14,8 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 - jQuery 1.4+
 
 ## Log
+* 2017-07-03 version 1.1.3
+  * 新增 `update` 方法
 * 2017-06-28 version 1.1.1
   * 修复 `IE8` 不兼容的问题
 
@@ -92,6 +94,13 @@ dropdown.changeStatus('disabled') // disabled
 dropdown.changeStatus() // cancel
 
 ```
+### update(Array,isCover)
+
+
+| 参数 |类型|描述|
+| ----|-----|-----|
+| data|Array|需要更新的数据|
+| isCover|Boolean|是否覆盖原有数据，默认不覆盖|
 
 
 ### destroy()

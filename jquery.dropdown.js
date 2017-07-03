@@ -101,7 +101,7 @@
   function selectToDiv(str) {
     var result = str || '';
     // 移除select标签
-    result = result.replace(/<select[^>]*>/gi, '<ul>').replace('</select', '</ul');
+    result = result.replace(/<select[^>]*>/gi, '').replace('</select>', '');
     // 移除 optgroup 结束标签
     result = result.replace(/<\/optgroup>/gi, '');
     result = result.replace(/<optgroup[^>]*>/gi, function (matcher) {
@@ -417,13 +417,25 @@
       _this.changeStatus(_config.disabled ? 'disabled' : _config.readonly ? 'readonly' : false);
     },
     // 渲染 select 为 dropdown
-    renderSelect: function renderSelect() {
+    renderSelect: function renderSelect(isUpdate, isCover) {
       var _this = this;
       var $el = _this.$el;
       var $select = _this.$select;
-      var template = createTemplate.call(_this).replace('{{ul}}', selectToDiv($select.prop('outerHTML')));
+      var elemLi = selectToDiv($select.prop('outerHTML'));
+      var template;
 
-      $el.append(template).find('ul').removeAttr('style class');
+      if (isUpdate) {
+        $el.find('ul')[isCover ? 'html' : 'append'](elemLi);
+      } else {
+        template = createTemplate.call(_this).replace('{{ul}}', '<ul>' + elemLi + '</ul>');
+        $el.append(template).find('ul').removeAttr('style class');
+      }
+
+      if (isCover) {
+        _this.name = [];
+        _this.$el.find('.dropdown-selected').remove();
+        _this.$select.val('');
+      }
 
       _this.$choseList = $el.find('.dropdown-chose-list');
 
@@ -514,7 +526,26 @@
         _this.bindEvent();
       }
     },
-    destroy: function destroy() {
+    update: function (data, isCover) {
+      var _this = this;
+      var _config = _this.config;
+      var $el = _this.$el;
+      var _isCover = isCover || false;
+
+      if (Object.prototype.toString.call(data) !== '[object Array]') {
+        return;
+      }
+
+      _config.data = _isCover ? data.slice(0) : _config.data.concat(data);
+
+      var processResult = objectToSelect(_config.data);
+
+      _this.name = processResult[1];
+      _this.selectAmount = processResult[2];
+      _this.$select.html(processResult[0]);
+      _this.renderSelect(true, _isCover);
+    },
+    destroy: function () {
       this.$el.children().not('select').remove();
       this.$el.removeClass('dropdown-single dropdown-multiple-label dropdown-multiple');
       this.$select.show();
