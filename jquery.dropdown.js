@@ -76,7 +76,7 @@
     var searchable = this.config.searchable;
     var templateSearch = searchable ? '<span class="dropdown-search">' + this.config.input + '</span>' : '';
 
-    return isLabelMode ? '<div class="dropdown-display-label">\n            <div class="dropdown-chose-list">' + templateSearch + '</div>\n        </div><div class="dropdown-main">{{ul}}</div>' : '<a href="javascript:;" class="dropdown-display">\n            <span class="dropdown-chose-list"></span><button class="dropdown-clear-all">\xD7</button>\n            </a><div class="dropdown-main">' + templateSearch + '{{ul}}</div>';
+    return isLabelMode ? '<div class="dropdown-display-label"><div class="dropdown-chose-list">' + templateSearch + '</div></div><div class="dropdown-main">{{ul}}</div>' : '<a href="javascript:;" class="dropdown-display"><span class="dropdown-chose-list"></span><a href="javascript:;"  class="dropdown-clear-all">\xD7</a></a><div class="dropdown-main">' + templateSearch + '{{ul}}</div>';
   }
 
   // 超出限制提示
@@ -372,7 +372,8 @@
 
       return false;
     },
-    clearAll: function clearAll() {
+    clearAll: function clearAll(event) {
+      event.preventDefault();
       this.$choseList.find('.del').each(function (index, el) {
         $(el).trigger('click');
       });
