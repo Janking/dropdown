@@ -548,6 +548,7 @@
       _this.renderSelect(true, _isCover);
     },
     destroy: function () {
+      this.unbindEvent();
       this.$el.children().not('select').remove();
       this.$el.removeClass('dropdown-single dropdown-multiple-label dropdown-multiple');
       this.$select.show();
