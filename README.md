@@ -14,6 +14,8 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 - jQuery 1.4+
 
 ## Log
+* 2017-07-06 version 1.1.4
+  * 修复`value`值为中文时的错误,#1
 * 2017-07-03 version 1.1.3
   * 新增 `update` 方法
 * 2017-06-28 version 1.1.1
