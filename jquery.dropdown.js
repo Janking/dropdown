@@ -344,6 +344,7 @@
 
       _dropdown.name.push('<span class="placeholder">' + _dropdown.placeholder + '</span>');
       _dropdown.$choseList.html(_dropdown.name.join(''));
+      _config.choice.call(_dropdown, event);
     },
     del: function del(event) {
       var _dropdown = this;
