@@ -360,7 +360,7 @@
       });
 
       $.each(_dropdown.config.data, function (key, item) {
-        if (item.id === id) {
+        if ('' + item.id == '' + id) {
           item.selected = false;
           return false;
         }
