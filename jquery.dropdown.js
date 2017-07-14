@@ -279,6 +279,10 @@
       var hasSelected = $target.hasClass('dropdown-chose');
       var selectedName = [];
 
+      if ($target.hasClass('dropdown-display')) {
+        return false;
+      }
+
       if (hasSelected) {
         $target.removeClass('dropdown-chose');
         _dropdown.selectAmount--;
@@ -320,11 +324,12 @@
       var value = $target.attr('data-value');
       var hasSelected = $target.hasClass('dropdown-chose');
 
-      _dropdown.name = [];
-
-      if ($target.hasClass('dropdown-chose')) {
+      if ($target.hasClass('dropdown-chose') || $target.hasClass('dropdown-display')) {
         return false;
       }
+
+      _dropdown.name = [];
+
 
       $el.removeClass('active').find('li').not($target).removeClass('dropdown-chose');
 
