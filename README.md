@@ -14,6 +14,9 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 - jQuery 1.4+
 
 ## Log
+* 2017-07-19 version 1.1.5
+  * 新增 `init` 回调函数
+  * 修复 [#4](/../../issues/4) 的问题
 * 2017-07-06 version 1.1.4
   * 修复`value`值为中文时的错误 [#2](/../../issues/2)
   * 修复单选无法触发回调问题 [#2](/../../issues/2)
@@ -79,6 +82,7 @@ Dropdown 会根据这个JSON来渲染 `select > option`
 | searchable|是否可开启搜索|Boolean|`true`|
 | searchNoData|无数据模板|HTML|`<li style="color:#ddd">查无数据，换个词儿试试 /(ㄒoㄒ)/~~</li>`|
 | choice|选择后回调函数|Function| `function(){}`|
+| init|插件初始化后回调函数|Function| `function(){}`|
 
 ## Methods
 

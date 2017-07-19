@@ -2,6 +2,8 @@
 (function ($) {
   'use strict';
 
+  function noop() {}
+
   function throttle(func, wait, options) {
     var context, args, result;
     var timeout = null;
@@ -54,7 +56,8 @@
     data: [],
     searchable: true,
     searchNoData: '<li style="color:#ddd">查无数据，换个词儿试试 /(ㄒoㄒ)/~~</li>',
-    choice: function choice() {}
+    init: noop,
+    choice: noop
   };
 
   var KEY_CODE = {
@@ -422,6 +425,8 @@
       _this.renderSelect();
       // disabled权重高于readonly
       _this.changeStatus(_config.disabled ? 'disabled' : _config.readonly ? 'readonly' : false);
+
+      _this._config.init();
     },
     // 渲染 select 为 dropdown
     renderSelect: function renderSelect(isUpdate, isCover) {
