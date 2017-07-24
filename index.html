@@ -176,7 +176,8 @@
     });
 
 
-    $('#update').on('click', function() {
+    $('#update').on('click', function(event) {
+      event.preventDefault();
       $.get('/update', function(res) {
         $('.dropdown-mul-1').data('dropdown').update(JSON.parse(res).data, true);
       });
@@ -199,7 +200,8 @@
     });
 
 
-    $('#update2').on('click', function() {
+    $('#update2').on('click', function(event) {
+      event.preventDefault();
       $.get('/update', function(res) {
         $('.dropdown-sin-2').data('dropdown').update(JSON.parse(res).data, false);
       });
