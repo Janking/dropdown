@@ -426,7 +426,7 @@
       // disabled权重高于readonly
       _this.changeStatus(_config.disabled ? 'disabled' : _config.readonly ? 'readonly' : false);
 
-      _this._config.init();
+      _this.config.init();
     },
     // 渲染 select 为 dropdown
     renderSelect: function renderSelect(isUpdate, isCover) {
