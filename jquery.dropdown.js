@@ -57,7 +57,8 @@
     searchable: true,
     searchNoData: '<li style="color:#ddd">查无数据，换个词儿试试 /(ㄒoㄒ)/~~</li>',
     init: noop,
-    choice: noop
+    choice: noop,
+    extendProps: []
   };
 
   var KEY_CODE = {
@@ -118,7 +119,11 @@
       // 强制要求html中使用selected/disabled，而不是selected="selected","disabled="disabled"
       var isSelected = matcher.indexOf('selected') > -1 ? true : false;
       var isDisabled = matcher.indexOf('disabled') > -1 ? true : false;
-      return '<li ' + (isDisabled ? ' disabled' : ' tabindex="0"') + ' data-value="' + (value ? value[1] : '') + '" class="dropdown-option ' + (isSelected ? 'dropdown-chose' : '') + '">' + (name ? name[1] : '') + '</li>';
+      var extendAttr = ''
+      var extendProps = matcher.replace(/data-(\w+)="?(.[^"]+)"?/g, function ($1) {
+        extendAttr += $1 + ' '
+      });
+      return '<li ' + (isDisabled ? ' disabled' : ' tabindex="0"') + ' data-value="' + (value ? value[1] : '') + '" class="dropdown-option ' + (isSelected ? 'dropdown-chose' : '') + '" ' + extendAttr + '>' + (name ? name[1] : '') + '</li>';
     });
 
     return result;
@@ -126,10 +131,12 @@
 
   // object-data 转 select-option
   function objectToSelect(data) {
+    var dropdown = this;
     var map = {};
     var result = '';
     var name = [];
     var selectAmount = 0;
+    var extendProps = dropdown.config.extendProps;
 
     if (!data || !data.length) {
       return false;
@@ -140,14 +147,17 @@
       var hasGroup = val.groupId;
       var isDisabled = val.disabled ? ' disabled' : '';
       var isSelected = val.selected && !isDisabled ? ' selected' : '';
-
-      var temp = '<option' + isDisabled + isSelected + ' value="' + val.id + '">' + val.name + '</option>';
-
+      var extendAttr = ''
+      $.each(extendProps, function (index, value) {
+        if (val[value]) {
+          extendAttr += 'data-' + value + '="' + val[value] + '" '
+        }
+      })
+      var temp = '<option' + isDisabled + isSelected + ' value="' + val.id + '" ' + extendAttr + '>' + val.name + '</option>';
       if (isSelected) {
         name.push('<span class="dropdown-selected">' + val.name + '<i class="del" data-id="' + val.id + '"></i></span>');
         selectAmount++;
       }
-
       // 判断是否有分组
       if (hasGroup) {
         if (map[val.groupId]) {
@@ -184,7 +194,6 @@
 
     function readOption(key, el) {
       var $option = $(el);
-
       this.id = $option.prop('value');
       this.name = $option.text();
       this.disabled = $option.prop('disabled');
@@ -195,7 +204,6 @@
       var tmp = {};
       var tmpGroup = {};
       var $el = $(el);
-
       if (el.nodeName === 'OPTGROUP') {
         tmpGroup.groupId = $el.data('groupId');
         tmpGroup.groupName = $el.attr('label');
@@ -204,7 +212,6 @@
       } else {
         $.each($el, $.proxy(readOption, tmp));
       }
-
       result.push(tmp);
     });
 
@@ -212,14 +219,13 @@
   }
 
   var action = {
-    show: function show(event) {
+    show: function (event) {
       event.stopPropagation();
       var _dropdown = this;
       $(document).trigger('click.dropdown');
       _dropdown.$el.toggleClass('active');
     },
     search: throttle(function (event) {
-
       var _dropdown = this;
       var _config = _dropdown.config;
       var $el = _dropdown.$el;
@@ -227,20 +233,17 @@
       var intputValue = $input.val();
       var data = _dropdown.config.data;
       var result = [];
-
       if (event.keyCode > 36 && event.keyCode < 41) {
         return;
       }
-
       $.each(data, function (key, value) {
         if (value.name.toLowerCase().indexOf(intputValue) > -1 || '' + value.id === '' + intputValue) {
           result.push(value);
         }
       });
-
-      $el.find('ul').html(selectToDiv(objectToSelect(result)[0]) || _config.searchNoData);
+      $el.find('ul').html(selectToDiv(objectToSelect.call(_dropdown, result)[0]) || _config.searchNoData);
     }, 300),
-    control: function control(event) {
+    control: function (event) {
       var keyCode = event.keyCode;
       var KC = KEY_CODE;
       var index = 0;
@@ -248,32 +251,27 @@
       var itemIndex;
       var $items;
       if (keyCode === KC.down || keyCode === KC.up) {
-
         // 方向
         direct = keyCode === KC.up ? -1 : 1;
         $items = this.$el.find('[tabindex]');
         itemIndex = $items.index($(document.activeElement));
-
         // 初始
         if (itemIndex === -1) {
           index = direct + 1 ? -1 : 0;
         } else {
           index = itemIndex;
         }
-
         // 确认位序
         index = index + direct;
-
         // 最后位循环
         if (index === $items.length) {
           index = 0;
         }
-
         $items.eq(index).focus();
         event.preventDefault();
       }
     },
-    multiChoose: function multiChoose(event) {
+    multiChoose: function (event, status) {
       var _dropdown = this;
       var _config = _dropdown.config;
       var $select = _dropdown.$select;
@@ -281,6 +279,7 @@
       var value = $target.attr('data-value');
       var hasSelected = $target.hasClass('dropdown-chose');
       var selectedName = [];
+      var selectedProp;
 
       if ($target.hasClass('dropdown-display')) {
         return false;
@@ -303,6 +302,7 @@
 
       $.each(_config.data, function (key, item) {
         if ('' + item.id === '' + value) {
+          selectedProp = item;
           item.selected = hasSelected ? false : true;
         }
         if (item.selected) {
@@ -316,9 +316,9 @@
       _dropdown.$choseList.find('.dropdown-selected').remove();
       _dropdown.$choseList.prepend(_dropdown.name.join(''));
       _dropdown.$el.find('.dropdown-display').attr('title', selectedName.join(','));
-      _config.choice.call(_dropdown, event);
+      _config.choice.call(_dropdown, event, selectedProp);
     },
-    singleChoose: function singleChoose(event) {
+    singleChoose: function (event) {
       var _dropdown = this;
       var _config = _dropdown.config;
       var $el = _dropdown.$el;
@@ -354,7 +354,7 @@
       _dropdown.$choseList.html(_dropdown.name.join(''));
       _config.choice.call(_dropdown, event);
     },
-    del: function del(event) {
+    del: function (event) {
       var _dropdown = this;
       var $target = $(event.target);
       var id = $target.data('id');
@@ -381,7 +381,7 @@
 
       return false;
     },
-    clearAll: function clearAll(event) {
+    clearAll: function (event) {
       event.preventDefault();
       this.$choseList.find('.del').each(function (index, el) {
         $(el).trigger('click');
@@ -405,7 +405,7 @@
   }
 
   Dropdown.prototype = {
-    init: function init() {
+    init: function () {
       var _this = this;
       var _config = _this.config;
       var $el = _this.$el;
@@ -417,7 +417,7 @@
         _config.data = selectToObject(_this.$select);
       }
 
-      var processResult = objectToSelect(_config.data);
+      var processResult = objectToSelect.call(_this, _config.data);
 
       _this.name = processResult[1];
       _this.selectAmount = processResult[2];
@@ -429,7 +429,7 @@
       _this.config.init();
     },
     // 渲染 select 为 dropdown
-    renderSelect: function renderSelect(isUpdate, isCover) {
+    renderSelect: function (isUpdate, isCover) {
       var _this = this;
       var $el = _this.$el;
       var $select = _this.$select;
@@ -457,7 +457,7 @@
 
       _this.$choseList.prepend(_this.name.join(''));
     },
-    bindEvent: function bindEvent() {
+    bindEvent: function () {
       var _this = this;
       var $el = _this.$el;
       var openHandle = isSafari ? EVENT_SPACE.click : EVENT_SPACE.focus;
@@ -465,6 +465,7 @@
       $el.on(EVENT_SPACE.click, function (event) {
         event.stopPropagation();
       });
+
       $el.on(EVENT_SPACE.click, '.del', $.proxy(action.del, _this));
 
       // show
@@ -501,7 +502,7 @@
 
       $el.on(EVENT_SPACE.click, '[tabindex]', $.proxy(_this.isSingleSelect ? action.singleChoose : action.multiChoose, _this));
     },
-    unbindEvent: function unbindEvent() {
+    unbindEvent: function () {
       var _this = this;
       var $el = _this.$el;
       var openHandle = isSafari ? EVENT_SPACE.click : EVENT_SPACE.focus;
@@ -526,7 +527,7 @@
       $el.off(EVENT_SPACE.keydown);
       $el.off(EVENT_SPACE.click, '[tabindex]');
     },
-    changeStatus: function changeStatus(status) {
+    changeStatus: function (status) {
       var _this = this;
       if (status === 'readonly') {
         _this.unbindEvent();
@@ -550,7 +551,7 @@
 
       _config.data = _isCover ? data.slice(0) : _config.data.concat(data);
 
-      var processResult = objectToSelect(_config.data);
+      var processResult = objectToSelect.call(_this, _config.data);
 
       _this.name = processResult[1];
       _this.selectAmount = processResult[2];
@@ -562,6 +563,19 @@
       this.$el.children().not('select').remove();
       this.$el.removeClass('dropdown-single dropdown-multiple-label dropdown-multiple');
       this.$select.show();
+    },
+    choose: function (values, status) {
+      var valArr = Object.prototype.toString.call(values) === '[object Array]' ? values : [values];
+      var _this = this;
+      var _status = status !== void 0 ? !!status : true
+      $.each(valArr, function (index, value) {
+        var $target = _this.$el.find('[data-value="' + value + '"]');
+        var targetStatus = $target.hasClass('dropdown-chose');
+        if (targetStatus !== _status) {
+          $target.trigger(EVENT_SPACE.click, status || true)
+        }
+
+      });
     }
   };
 

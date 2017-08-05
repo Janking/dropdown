@@ -14,6 +14,11 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 - jQuery 1.4+
 
 ## Log
+* 2017-08-05 version 1.1.6
+  * 新增自定义字段 `extendProps`
+  * 新增方法 `choose`
+  * 优化回调函数 `choice(event,data)`，新增第二个入参
+  * [#6](/../../issues/6)
 * 2017-07-19 version 1.1.5
   * 新增 `init` 回调函数
   * 修复 [#4](/../../issues/4) 的问题
@@ -83,6 +88,7 @@ Dropdown 会根据这个JSON来渲染 `select > option`
 | searchNoData|无数据模板|HTML|`<li style="color:#ddd">查无数据，换个词儿试试 /(ㄒoㄒ)/~~</li>`|
 | choice|选择后回调函数|Function| `function(){}`|
 | init|插件初始化后回调函数|Function| `function(){}`|
+| extendProps|扩展自定义字段 `data-*`,字段名必须在`data`中存在，否则无效 **不建议扩展太多字段，会有性能影响**|Array| `['prop1','prop2']`|
 
 ## Methods
 
@@ -103,6 +109,22 @@ dropdown.changeStatus('disabled') // disabled
 dropdown.changeStatus() // cancel
 
 ```
+### choose(value,status)
+
+
+| 参数 |类型|描述|
+| ----|-----|-----|
+| value | String\|Array | 需要被选中的值，多个值用数字 `['one','two','three']`
+| status|Boolean|选中或取消，默认为: true
+|return|undefined|
+
+
+```js
+var dropdown = $('selector').dropdown(options).data('dropdown');
+dropdown.destroy();
+
+```
+
 ### update(Array,isCover)
 
 
