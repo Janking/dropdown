@@ -112,6 +112,12 @@
         "id": function() {
           return Random.cword(3);
         },
+        "one": function() {
+          return Random.name(true)
+        },
+        "two": function() {
+          return Random.name(true)
+        },
         "disabled|1-2": true,
         groupName: '分组名',
         "groupId|1-4": 1,
@@ -206,6 +212,8 @@
         $('.dropdown-sin-2').data('dropdown').update(JSON.parse(res).data, false);
       });
     });
+
+    var test = $('.dropdown-sin-1').data('dropdown')
   </script>
 </body>
 
