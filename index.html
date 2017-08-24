@@ -106,16 +106,16 @@
     var Random = Mock.Random;
     var json1 = Mock.mock({
       "data|10-50": [{
-        name: function() {
+        name: function () {
           return Random.name(true)
         },
-        "id": function() {
+        "id": function () {
           return Random.cword(3);
         },
-        "one": function() {
+        "one": function () {
           return Random.name(true)
         },
-        "two": function() {
+        "two": function () {
           return Random.name(true)
         },
         "disabled|1-2": true,
@@ -129,14 +129,14 @@
       data: json1.data,
       limitCount: 40,
       multipleMode: 'label',
-      choice: function() {
+      choice: function () {
         console.log(arguments, this);
       }
     });
 
     var json2 = Mock.mock({
       "data|100-200": [{
-        name: function() {
+        name: function () {
           return Random.name(true)
         },
         "id|+1": 1,
@@ -149,7 +149,7 @@
 
     Mock.mock('/update', {
       "data|51-100": [{
-        name: function() {
+        name: function () {
           return Random.name(true)
         },
         "id|+1": 101,
@@ -161,7 +161,7 @@
     });
     Mock.mock('/update2', {
       "data|201-300": [{
-        name: function() {
+        name: function () {
           return Random.name(true)
         },
         "id|+1": 201,
@@ -176,15 +176,15 @@
     $('.dropdown-mul-2').dropdown({
       limitCount: 5,
       searchable: false,
-      choice: function() {
+      choice: function () {
         console.log('.dropdown-mul-2 picked')
       }
     });
 
 
-    $('#update').on('click', function(event) {
+    $('#update').on('click', function (event) {
       event.preventDefault();
-      $.get('/update', function(res) {
+      $.get('/update', function (res) {
         $('.dropdown-mul-1').data('dropdown').update(JSON.parse(res).data, true);
       });
     });
@@ -192,7 +192,7 @@
     $('.dropdown-sin-1').dropdown({
       readOnly: true,
       input: '<input type="text" maxLength="20" placeholder="请输入搜索">',
-      choice: function() {
+      choice: function () {
         console.log(arguments, this);
       }
     });
@@ -200,15 +200,15 @@
     $('.dropdown-sin-2').dropdown({
       data: json2.data,
       input: '<input type="text" maxLength="20" placeholder="请输入搜索">',
-      choice: function() {
+      choice: function () {
         console.log(arguments, this);
       }
     });
 
 
-    $('#update2').on('click', function(event) {
+    $('#update2').on('click', function (event) {
       event.preventDefault();
-      $.get('/update', function(res) {
+      $.get('/update', function (res) {
         $('.dropdown-sin-2').data('dropdown').update(JSON.parse(res).data, false);
       });
     });
