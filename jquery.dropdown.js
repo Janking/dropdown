@@ -2,7 +2,7 @@
 (function ($) {
   'use strict';
 
-  function noop() {}
+  function noop() { }
 
   function throttle(func, wait, options) {
     var context, args, result;
@@ -223,7 +223,7 @@
       event.stopPropagation();
       var _dropdown = this;
       $(document).trigger('click.dropdown');
-      _dropdown.$el.toggleClass('active');
+      _dropdown.$el.addClass('active');
     },
     search: throttle(function (event) {
       var _dropdown = this;
@@ -473,8 +473,11 @@
         $el.on(EVENT_SPACE.click, '.dropdown-display-label', function () {
           $el.find('input').focus();
         });
-
-        $el.on(EVENT_SPACE.focus, 'input', $.proxy(action.show, _this));
+        if (_this.config.searchable) {
+          $el.on(EVENT_SPACE.focus, 'input', $.proxy(action.show, _this));
+        } else {
+          $el.on(EVENT_SPACE.click, $.proxy(action.show, _this));
+        }
         $el.on(EVENT_SPACE.keydown, 'input', function (event) {
           if (event.keyCode === 8 && this.value === '' && _this.name.length) {
             $el.find('.del').eq(-1).trigger('click');
