@@ -237,7 +237,7 @@
         return;
       }
       $.each(data, function (key, value) {
-        if (value.name.toLowerCase().indexOf(intputValue) > -1 || '' + value.id === '' + intputValue) {
+        if (value.name.toLowerCase().indexOf(intputValue.toLowerCase()) > -1 || '' + value.id === '' + intputValue) {
           result.push(value);
         }
       });
