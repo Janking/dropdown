@@ -142,9 +142,9 @@ dropdown.destroy();
 
 | 参数 |类型|描述|
 | ----|-----|-----|
-<!-- | status|String|支持`readonly`或`disabled`，不传则取消`readonly/disabled`| -->
 |return|undefined|
 
+<!-- | status|String|支持`readonly`或`disabled`，不传则取消`readonly/disabled`| -->
 
 ```js
 var dropdown = $('selector').dropdown(options).data('dropdown');
