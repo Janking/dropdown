@@ -455,7 +455,7 @@
         _this.$choseList.html($('<span class="placeholder"></span>').text(_this.placeholder));
       }
 
-      _this.$choseList.prepend(_this.name.join(''));
+      _this.$choseList.prepend(_this.name ? _this.name.join('') : []);
     },
     bindEvent: function () {
       var _this = this;
