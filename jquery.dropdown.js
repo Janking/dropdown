@@ -237,7 +237,7 @@
         return;
       }
       $.each(data, function (key, value) {
-        if (value.name.toLowerCase().indexOf(intputValue.toLowerCase()) > -1 || '' + value.id === '' + intputValue) {
+        if (value.groupName.toLowerCase().indexOf(intputValue.toLowerCase()) > -1 || value.name.toLowerCase().indexOf(intputValue.toLowerCase()) > -1 || '' + value.id === '' + intputValue) {
           result.push(value);
         }
       });
@@ -382,7 +382,8 @@
       return false;
     },
     clearAll: function (event) {
-      event.preventDefault();
+      event && event.preventDefault();
+      console.log(this)
       this.$choseList.find('.del').each(function (index, el) {
         $(el).trigger('click');
       });
@@ -577,8 +578,10 @@
         if (targetStatus !== _status) {
           $target.trigger(EVENT_SPACE.click, status || true)
         }
-
       });
+    },
+    reset: function () {
+      action.clearAll.call(this)
     }
   };
 

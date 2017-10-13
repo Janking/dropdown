@@ -28,7 +28,8 @@
     <br>
     <div class="row">
       <div class="col-sm-4">
-        <div class="text-info">多选、JSON渲染、分组功能</div><br>
+        <div class="text-info">多选、JSON渲染、分组功能</div>
+        <br>
         <div class="dropdown-mul-1">
           <select style="display:none" name="" id="" multiple placeholder="请选择"> </select>
         </div>
@@ -41,16 +42,17 @@
     <br>
     <div class="row">
       <div class="col-sm-4">
-        <div class="text-info">多选、Option渲染</div><br>
+        <div class="text-info">多选、Option渲染</div>
+        <br>
         <div class="dropdown-mul-2">
           <select style="display:none" name="" id="mul-2" multiple placeholder="请选择">
-          <option value="1" selected>1</option>
-          <option value="2">2</option>
-          <option value="3" selected>我是默认选中的</option>
-          <option value="4" disabled>4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3" selected>我是默认选中的</option>
+            <option value="4" disabled>4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
         </div>
       </div>
     </div>
@@ -58,10 +60,11 @@
     <br>
     <div class="row">
       <div class="col-sm-4">
-        <div class="text-info">单选模式，Option渲染</div><br>
+        <div class="text-info">单选模式，Option渲染</div>
+        <br>
         <div class="dropdown-sin-1">
           <select style="display:none" placeholder="请选择：测试placeholder">
-        </select>
+          </select>
         </div>
       </div>
     </div>
@@ -69,13 +72,15 @@
     <br>
     <div class="row">
       <div class="col-sm-4">
-        <div class="text-info">100 条数据搜索测试</div><br>
+        <div class="text-info">100 条数据搜索测试</div>
+        <br>
         <div class="dropdown-sin-2">
           <select style="display:none" multiple placeholder="请选择：测试placeholder"></select>
         </div>
       </div>
       <div class="col-sm-4" style="margin-top:40px;">
         <button class="btn btn-primary btn-sm" id="update2">AJAX更新数据</button>
+        <button class="btn btn-primary btn-sm" id="reset">reset</button>
       </div>
     </div>
     <br>
@@ -202,6 +207,12 @@
     });
 
     var test = $('.dropdown-sin-1').data('dropdown')
+
+
+    $('#reset').on('click', function () {
+      event.preventDefault();
+      $('.dropdown-sin-2').data('dropdown').reset()
+    })
   </script>
 </body>
 

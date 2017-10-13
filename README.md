@@ -2,7 +2,7 @@
 Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持key/value搜索，有token和select两种模式。
 
 ## Version
-- 1.1.7
+- 1.2.0
 
 ## Support
 - Internet Explorer 8+
@@ -14,6 +14,9 @@ Dropdown是面向PC端的基于jQuery开发的轻量级下拉框插件，支持k
 - jQuery 1.4+
 
 ## Log
+* 2017-10-13 version 1.2.0
+	* 新增方法 `reset`
+	* 搜索支持分组名
 * 2017-08-05 version 1.1.7
   * 修复BUG [#6](/../../issues/8)
 
@@ -96,8 +99,7 @@ Dropdown 会根据这个JSON来渲染 `select > option`
 ## Methods
 
 ### changeStatus(status)
-
-
+修改组件状态
 
 | 参数 |类型|描述|
 | ----|-----|-----|
@@ -113,7 +115,7 @@ dropdown.changeStatus() // cancel
 
 ```
 ### choose(value,status)
-
+动态选择值
 
 | 参数 |类型|描述|
 | ----|-----|-----|
@@ -129,7 +131,7 @@ dropdown.destroy();
 ```
 
 ### update(Array,isCover)
-
+更新数据
 
 | 参数 |类型|描述|
 | ----|-----|-----|
@@ -138,7 +140,7 @@ dropdown.destroy();
 
 
 ### destroy()
-
+销毁组件
 
 | 参数 |类型|描述|
 | ----|-----|-----|
@@ -152,6 +154,20 @@ dropdown.destroy();
 
 ```
 
+
+### reset()
+重置
+
+| 参数 |类型|描述|
+| ----|-----|-----|
+|return|undefined|
+
+
+```js
+var dropdown = $('selector').dropdown(options).data('dropdown');
+dropdown.reset();
+
+```
 
 ## Usage
 引入
