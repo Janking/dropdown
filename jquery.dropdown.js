@@ -237,7 +237,7 @@
         return;
       }
       $.each(data, function (key, value) {
-        if (value.groupName.toLowerCase().indexOf(intputValue.toLowerCase()) > -1 || value.name.toLowerCase().indexOf(intputValue.toLowerCase()) > -1 || '' + value.id === '' + intputValue) {
+        if ((value.groupName && value.groupName.toLowerCase().indexOf(intputValue.toLowerCase()) > -1) || value.name.toLowerCase().indexOf(intputValue.toLowerCase()) > -1 || '' + value.id === '' + intputValue) {
           result.push(value);
         }
       });
