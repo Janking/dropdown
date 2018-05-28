@@ -114,7 +114,8 @@
       return '<li class="dropdown-group" data-group-id="' + (groupId ? groupId[1] : '') + '">' + (groupName ? groupName[1] : '') + '</li>';
     });
     result = result.replace(/<option(.*?)<\/option>/gi, function (matcher) {
-      var value = /value="?([\w\u4E00-\u9FA5\uF900-\uFA2D]+)"?/.exec(matcher);
+      // var value = /value="?([\w\u4E00-\u9FA5\uF900-\uFA2D]+)"?/.exec(matcher);
+      var value = $(matcher).val();
       var name = />(.*)<\//.exec(matcher);
       // 强制要求html中使用selected/disabled，而不是selected="selected","disabled="disabled"
       var isSelected = matcher.indexOf('selected') > -1 ? true : false;
@@ -123,7 +124,7 @@
       var extendProps = matcher.replace(/data-(\w+)="?(.[^"]+)"?/g, function ($1) {
         extendAttr += $1 + ' '
       });
-      return '<li ' + (isDisabled ? ' disabled' : ' tabindex="0"') + ' data-value="' + (value ? value[1] : '') + '" class="dropdown-option ' + (isSelected ? 'dropdown-chose' : '') + '" ' + extendAttr + '>' + (name ? name[1] : '') + '</li>';
+      return '<li ' + (isDisabled ? ' disabled' : ' tabindex="0"') + ' data-value="' + (value || '') + '" class="dropdown-option ' + (isSelected ? 'dropdown-chose' : '') + '" ' + extendAttr + '>' + (name ? name[1] : '') + '</li>';
     });
 
     return result;
