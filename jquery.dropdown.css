@@ -156,7 +156,7 @@
   right: 8px
 }
 
-.dropdown-clear-all {       
+.dropdown-clear-all {
    background-color: #fff;
     border: none;
     font-size: 22px;
@@ -368,7 +368,7 @@
   margin: 8px 5px 0 0
 }
 
-.dropdown-maxItem-alert {
+.dropdown-maxItem-alert, .dropdown-minItem-alert {
   position: absolute;
   top: 0;
   left: 0;
