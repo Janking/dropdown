@@ -174,7 +174,9 @@
 
     $('.dropdown-mul-2').dropdown({
       minCount: 2,
-      limitCount: 5,
+      minCountErrorMessage: 'You need to select at least 2 options!',
+      limitCount: 4,
+      limitCountErrorMessage: 'You cannot select more than 4 options!',
       searchable: false,
       choice: function () {
         console.log('.dropdown-mul-2 picked')

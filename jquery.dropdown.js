@@ -52,7 +52,9 @@
   var settings = {
     readonly: false,
     minCount: 0,
+    minCountErrorMessage: '',
     limitCount: Infinity,
+    limitCountErrorMessage: '',
     input: '<input type="text" maxLength="20" placeholder="搜索关键词或ID">',
     data: [],
     searchable: true,
@@ -92,10 +94,14 @@
     var _config = _dropdown.config;
     var $el = _dropdown.$el;
     var $alert = $el.find('.dropdown-minItem-alert');
+    var alertMessage = _config.minCountErrorMessage;
     clearTimeout(_dropdown.itemCountAlertTimer);
 
     if ($alert.length === 0) {
-      $alert = $('<div class="dropdown-minItem-alert">\u6700\u4f4e\u9009\u62e9' + _config.minCount + '\u4E2A</div>');
+      if (!alertMessage) {
+        alertMessage = '\u6700\u4f4e\u9009\u62e9' + _config.minCount + '\u4E2A';
+      }
+      $alert = $('<div class="dropdown-minItem-alert">' + alertMessage + '</div>');
     }
 
     $el.append($alert);
@@ -110,10 +116,14 @@
     var _config = _dropdown.config;
     var $el = _dropdown.$el;
     var $alert = $el.find('.dropdown-maxItem-alert');
+    var alertMessage = _config.limitCountErrorMessage;
     clearTimeout(_dropdown.itemLimitAlertTimer);
 
     if ($alert.length === 0) {
-      $alert = $('<div class="dropdown-maxItem-alert">\u6700\u591A\u53EF\u9009\u62E9' + _config.limitCount + '\u4E2A</div>');
+      if (!alertMessage) {
+        alertMessage = '\u6700\u591A\u53EF\u9009\u62E9' + _config.limitCount + '\u4E2A';
+      }
+      $alert = $('<div class="dropdown-maxItem-alert">' + alertMessage + '</div>');
     }
 
     $el.append($alert);
