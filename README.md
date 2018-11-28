@@ -89,8 +89,10 @@ Dropdown 会根据这个JSON来渲染 `select > option`
 | 名称 | 描述 | 类型|默认|
 | ----|-----|-----|----|
 | readOnly|是否只读|Boolean|`false`|
-|minCount|下限|Number|`0`|
-|limitCount|选择上限|Number|`Infinity`|
+| minCount|下限|Number|`0`|
+| minCountErrorMessage|下限自定義錯誤消息|String|最低选择<mincount>个|
+| limitCount|选择上限|Number|`Infinity`|
+| limitCountErrorMessage|上限的自定义错误消息|String|最多可选择<limitCount>个|
 | input|搜索框模板|HTML|`<input type="text" maxLength="20" placeholder="搜索关键词或ID">`|
 | data|数据源|Array|`[]`|
 | searchable|是否可开启搜索|Boolean|`true`|
