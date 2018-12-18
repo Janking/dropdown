@@ -392,6 +392,7 @@
     },
     del: function (event) {
       var _dropdown = this;
+      var _config = _dropdown.config;
       var $target = $(event.target);
       var id = $target.data('id');
       // 2017-03-23 15:58:50 测试
@@ -414,6 +415,7 @@
       _dropdown.$el.find('[data-value="' + id + '"]').removeClass('dropdown-chose');
       _dropdown.$el.find('[value="' + id + '"]').prop('selected', false).removeAttr('selected');
       $target.closest('.dropdown-selected').remove();
+      _config.choice.call(_dropdown, event);
 
       return false;
     },
